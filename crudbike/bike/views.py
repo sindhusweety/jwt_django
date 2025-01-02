@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -5,6 +6,10 @@ from rest_framework import generics, status
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import User, Bike
 from .serializers import UserSerializer, BikeSerializer
+from django.http import HttpResponse
+
+def home(request):
+    return render(request,'home.html',{"name":"sindhu", "key":['a','b', 'c']})
 
 # Register View
 class RegisterView(APIView):
@@ -49,5 +54,9 @@ class BikeDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
+        #print(self.request.user)
         return Bike.objects.filter(owner=self.request.user)
+
+
+
 
